@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "bundle": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ../../android/app/src/main/assets/index.android-1.bundle --assets-dest ../../android/app/src/main/res/"
+    "bundle:android": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output ../../android/app/src/main/assets/index.android-1.bundle --assets-dest ../../android/app/src/main/res/",
+    "bundle:ios": "npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ../../ios/index.ios-1.bundle --assets-dest ../../ios/ --reset-cache"
   },
   "dependencies": {
     "react": "18.2.0",
