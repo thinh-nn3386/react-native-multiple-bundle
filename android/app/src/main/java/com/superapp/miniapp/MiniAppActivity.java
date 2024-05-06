@@ -19,6 +19,7 @@ public class MiniAppActivity extends ReactActivity implements DefaultHardwareBac
     private static MiniAppActivity mInstance;
     private String mMainComponentName;
     private static ReactInstanceManager mReactInstanceManager;
+    private static ReactRootView mReactRootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public class MiniAppActivity extends ReactActivity implements DefaultHardwareBac
         boolean devLoad = bundle.getBoolean("devLoad");
         Bundle initProps = bundle.getBundle("initProps");
 
-        ReactRootView mReactRootView = new ReactRootView(this);
+        mReactRootView = new ReactRootView(this);
 
 //        val packages: List<ReactPackage> = PackageList(application).packages
         String appPath = bundle.getString("appPath", "");
@@ -56,6 +57,35 @@ public class MiniAppActivity extends ReactActivity implements DefaultHardwareBac
         ));
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostPause(this);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostResume(this, this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (mReactInstanceManager != null) {
+            mReactInstanceManager.onHostDestroy(this);
+        }
+        if (mReactRootView != null) {
+            mReactRootView.unmountReactApplication();
+        }
+    }
     @Override
     protected String getMainComponentName() {
         return mMainComponentName;
